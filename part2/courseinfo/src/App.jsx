@@ -14,6 +14,7 @@ const Course = (props) => {
     <div>
       <Header course={props.course.name} />
       <Content parts={props.course.parts} />
+      <Total total={props.course.parts.reduce((sum, ex) => sum + ex.exercises, 0)} />
     </div>
   )
 }
