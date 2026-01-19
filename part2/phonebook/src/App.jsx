@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import personHandler from './services/persons'
 
-const Person = ({name, number}) => <div>{name} {number}</div>
-
 const Adder = ({handleName, newName, handleInput, newNumber, handleInputNumber}) => (
   <form onSubmit={handleName}>
     <div>
@@ -29,7 +27,13 @@ const Filter = ({newFilter, handleInputFilter}) => (
   </div>
 )
 
-const Numbers = ({filteredPersons}) => filteredPersons.map(person => <Person key={person.name} name={person.name} number={person.number} />)
+const Numbers = ({filteredPersons, remove}) => filteredPersons.map(person => {
+  return(<li key={person.id}>
+        {person.name} {person.number}
+        <button onClick={() => remove(person.id, person.name)}>Delete</button>
+      </li>)
+      }
+)
 
 const App = () => {
 
@@ -42,9 +46,19 @@ const App = () => {
     personHandler
       .getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
   }, [])
+
+  const remover = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personHandler
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
 
   const handleInput = (event) => setNewName(event.target.value)
   const handleInputNumber = (event) => setNewNumber(event.target.value)
@@ -62,7 +76,7 @@ const App = () => {
       : (personHandler
         .create(personObject)
         .then(response => {
-          setPersons(persons.concat(response.data))
+          setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
         })
@@ -76,7 +90,7 @@ const App = () => {
         <Adder handleName={handleName} newName={newName} handleInput={handleInput} newNumber={newNumber} handleInputNumber={handleInputNumber} />
         <Filter newFilter={newFilter} handleInputFilter={handleInputFilter} />
       <h2>Numbers</h2>
-        <Numbers filteredPersons={filteredPersons} />
+        <Numbers filteredPersons={filteredPersons} remove={remover} />
     </div>
   )
 }
