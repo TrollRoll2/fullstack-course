@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personHandler from './services/persons'
+import Notification from './components/Notification'
 
 const Adder = ({handleName, newName, handleInput, newNumber, handleInputNumber}) => (
   <form onSubmit={handleName}>
@@ -41,6 +42,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [notif, setNotif] = useState('Welcome to the app!')
 
   useEffect(() => {
     personHandler
@@ -72,6 +74,10 @@ const App = () => {
       .update(person.id, {...person, number: updatedNumber})
       .then((updated) => {
         setPersons(persons.map((p) => p.id !== person.id ? p : updated))
+        setNotif(`${name}'s number was updated`)
+        setTimeout(() => {
+          setNotif(null)
+        }, 5000)
       })
   }
 
@@ -89,6 +95,10 @@ const App = () => {
         .create(personObject)
         .then(response => {
           setPersons(persons.concat(response))
+          setNotif(`${personObject.name} was added`)
+            setTimeout(() => {
+              setNotif(null)
+            }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -98,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notif} />
       <h2>Add a person</h2>
         <Adder handleName={handleName} newName={newName} handleInput={handleInput} newNumber={newNumber} handleInputNumber={handleInputNumber} />
         <Filter newFilter={newFilter} handleInputFilter={handleInputFilter} />
