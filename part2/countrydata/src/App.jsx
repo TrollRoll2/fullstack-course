@@ -9,13 +9,13 @@ const Searchbar = ({newFilter, handleInputFilter}) => (
   </div>
 )
 
-const Countrylist = ({filteredCountries}) => {
+const Countrylist = ({filteredCountries, showCountry}) => {
   if (filteredCountries) {
     return (filteredCountries.length > 10
       ? <div>Too many matches, please specify</div>
       : filteredCountries.length == 1
-        ? CountryView(filteredCountries[0])
-        : filteredCountries.map(country => <li key={country.name.common}>{country.name.common}</li>)
+        ? <CountryView {...filteredCountries[0]}/>
+        : filteredCountries.map(country => <li key={country.name.common}>{country.name.common}<button onClick={() => showCountry(country)}>show</button></li>)
     )
   }
 }
@@ -39,6 +39,7 @@ const CountryView = (c) => {
 function App() {
   const [countries, setCountries] = useState([])
   const [newFilter, setNewFilter] = useState('')
+  const [showCountry, setShowCountry] = useState(null)
 
   useEffect(() => {
     countrysearch
@@ -50,6 +51,7 @@ function App() {
 
   const handleInputFilter = (event) => {
     setNewFilter(event.target.value)
+    setShowCountry(null)
   }
 
   const filteredCountries = countries.filter(c => c.name.common.toLowerCase().includes(newFilter.toLowerCase()))
@@ -57,7 +59,10 @@ function App() {
   return (
     <div>
       <Searchbar newFilter={newFilter} handleInputFilter={handleInputFilter} />
-      <Countrylist filteredCountries={filteredCountries} />
+      {showCountry 
+        ? <CountryView {...showCountry} />
+        : <Countrylist filteredCountries={filteredCountries} showCountry={setShowCountry} />
+      }
     </div>
   )
 }
