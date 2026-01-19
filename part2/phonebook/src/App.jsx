@@ -65,14 +65,26 @@ const App = () => {
   const handleInputFilter = (event) => setNewFilter(event.target.value)
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
+  const updateName = (name, updatedNumber) => {
+    const person = persons.find((p) => p.name === name)
+    
+    personHandler
+      .update(person.id, {...person, number: updatedNumber})
+      .then((updated) => {
+        setPersons(persons.map((p) => p.id !== person.id ? p : updated))
+      })
+  }
+
   const handleName = (event) => {
     event.preventDefault()
     const personObject = {
       name: newName, number: newNumber
     }
-    
+
     persons.some(names => names.name === personObject.name)
-      ? window.alert(`${newName} is already added to the phonebook`)
+      ? window.confirm(`Update ${personObject.name}'s number?`)
+        ? updateName(personObject.name, personObject.number)
+        : null
       : (personHandler
         .create(personObject)
         .then(response => {
