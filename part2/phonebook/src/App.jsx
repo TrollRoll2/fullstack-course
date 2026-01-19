@@ -42,7 +42,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [notif, setNotif] = useState('Welcome to the app!')
+  const [notif, setNotif] = useState({message:'Welcome to the app!', notifType:'info'})
 
   useEffect(() => {
     personHandler
@@ -74,10 +74,14 @@ const App = () => {
       .update(person.id, {...person, number: updatedNumber})
       .then((updated) => {
         setPersons(persons.map((p) => p.id !== person.id ? p : updated))
-        setNotif(`${name}'s number was updated`)
+        setNotif({message:`${name}'s number was updated`, notifType:'info'})
         setTimeout(() => {
-          setNotif(null)
+          setNotif({message: null, notifType: null})
         }, 5000)
+      })
+      .catch(error => {
+        setNotif({message:`${name} is no longer accessible`, notifType:'error'})
+        setPersons(persons.filter(p => p.id !== person.id))
       })
   }
 
@@ -95,9 +99,9 @@ const App = () => {
         .create(personObject)
         .then(response => {
           setPersons(persons.concat(response))
-          setNotif(`${personObject.name} was added`)
+          setNotif({message:`${personObject.name} was added`, notifType:'info'})
             setTimeout(() => {
-              setNotif(null)
+              setNotif({message: null, notifType: null})
             }, 5000)
           setNewName('')
           setNewNumber('')
@@ -108,7 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notif} />
+      <Notification message={notif.message} notifType={notif.notifType} />
       <h2>Add a person</h2>
         <Adder handleName={handleName} newName={newName} handleInput={handleInput} newNumber={newNumber} handleInputNumber={handleInputNumber} />
         <Filter newFilter={newFilter} handleInputFilter={handleInputFilter} />
