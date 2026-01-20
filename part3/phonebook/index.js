@@ -48,6 +48,20 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
+  const exists = persons.find((p) => p.name === body.name)
+
+  if ((!body.name || !body.number)) {
+    return response.status(400).json({ 
+      error: 'both a name and a number is needed' 
+    })
+  }
+
+  if (exists) {
+    return response.status(400).json({
+      error: 'person already exists in phonebook'
+    })
+  }
+
   const person = {
     name: body.name,
     number: body.number,

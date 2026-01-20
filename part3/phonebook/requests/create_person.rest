@@ -3,5 +3,21 @@ Content-Type: application/json
 
 {
 "name": "abc",
- "number": "1234"
+"number": "1234"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+"name": "forgotnumber"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+"number": "123noname"
 }
