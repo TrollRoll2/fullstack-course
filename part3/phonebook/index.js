@@ -1,6 +1,3 @@
-console.log("Node version:", process.version);
-console.log("Node path:", process.execPath);
-
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
@@ -48,11 +45,12 @@ app.post('/api/persons', (request, response) => {
 })
 
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  persons = persons.filter((p) => p.id !== id)
-
-  response.status(204).end()
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndDelete(request.params.id)
+  .then(result => {
+    response.status(204).end()
+  })
+  .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
