@@ -79,10 +79,13 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.get('/info', (request, response) => {
   request.date = new Date()
-  response.send(`
-    <div>Phonebook has info for ${persons.length} people </div>
-    <div>${request.date}</div>
-    `)
+
+  Person.find(({})).then(persons => {
+    response.send(`
+      <div>Phonebook has info for ${persons.length} people </div>
+      <div>${request.date}</div>
+      `)
+  })
 })
 
 const unknownEndpoint = (request, response) => {
