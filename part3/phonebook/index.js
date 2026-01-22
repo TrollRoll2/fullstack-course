@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const Person = require('./models/person')
+const person = require('./models/person')
 const app = express()
 
 app.use(express.json())
@@ -48,6 +49,23 @@ app.post('/api/persons', (request, response) => {
   person.save().then(saved => {
     response.json(saved)
   })
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+  Person.findById(request.params.id)
+    .then((p) => {
+      if (!p) {return response.status(404).end()}
+
+      p.name = name
+      p.number = number
+
+      return p.save()
+        .then((updated) => {
+          response.json(updated)
+        })
+    })
+    .catch((error) => next(error))
 })
 
 
