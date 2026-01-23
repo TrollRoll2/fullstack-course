@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-const url = "mongodb+srv://patrikbackman:TrollRoll2@phonebook.nahx1ei.mongodb.net/persons?appName=Phonebook"
+const url = process.env.MONGODB_URI
 
 console.log('Connecting to', url)
 mongoose.connect(url)
