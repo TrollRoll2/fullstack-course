@@ -2,7 +2,6 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const Person = require('./models/person')
-const person = require('./models/person')
 const app = express()
 
 app.use(express.json())
@@ -36,8 +35,8 @@ app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if ((!body.name || !body.number)) {
-    return response.status(400).json({ 
-      error: 'both a name and a number is needed' 
+    return response.status(400).json({
+      error: 'both a name and a number is needed'
     })
   }
 
@@ -73,10 +72,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-  .then(result => {
-    response.status(204).end()
-  })
-  .catch(error => next(error))
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
