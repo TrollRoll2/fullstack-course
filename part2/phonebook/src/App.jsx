@@ -80,8 +80,7 @@ const App = () => {
         }, 5000)
       })
       .catch(error => {
-        setNotif({message:`${name} is no longer accessible`, notifType:'error'})
-        setPersons(persons.filter(p => p.id !== person.id))
+        setNotif({message: error.response.data.error, notifType: 'error'})
       })
   }
 
@@ -105,6 +104,9 @@ const App = () => {
             }, 5000)
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          setNotif({message: error.response.data.error, notifType: 'error'})
         })
       )
     }
