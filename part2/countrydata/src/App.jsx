@@ -21,6 +21,18 @@ const Countrylist = ({filteredCountries, showCountry}) => {
 }
 
 const CountryView = (c) => {
+  const [weather, setWeather] = useState(null)
+
+  useEffect(() => {
+    countrysearch
+      .getWeather(c)
+      .then(data => {
+        setWeather(data)
+      })
+  }, [c])
+
+  if (!weather) return <div>Loading country...</div>
+  
   return (
     <div>
       <h1>{c.name.common}</h1>
@@ -32,6 +44,10 @@ const CountryView = (c) => {
       </ul>
       <div>Flag of {c.name.common}:</div>
       <img src={c.flags.png}/>
+      <h2>Weather in {c.capital}</h2>
+      <div>Temperature {weather.main.temp} Celsius</div>
+      <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
+      <div>Wind {weather.wind.speed} m/s</div>
     </div>
   )
 }
