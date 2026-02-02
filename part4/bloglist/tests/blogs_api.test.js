@@ -100,6 +100,47 @@ test('a blog missing url is not added', async () => {
   assert.strictEqual(response.body.length, initialBlogs.length)
 })
 
+test('a blog can be successfully deleted', async () => {
+  const atStart = await blogsInDb()
+  const firstBlog = atStart[0]
+
+  await api
+    .delete(`/api/blogs/${firstBlog.id}`)
+    .expect(204)
+
+  const blogsAfter = await blogsInDb()
+
+  assert.strictEqual(blogsAfter.length, initialBlogs.length - 1)
+})
+
+test('a blog can be successfully updated', async () => {
+  const atStart = await blogsInDb()
+  const firstBlog = atStart[0]
+
+  const newBlog = {
+    title: 'newTitle',
+    author: 'newAuthor',
+    url: 'newUrl',
+    likes: 101
+  }
+
+  await api
+    .put(`/api/blogs/${firstBlog.id}`)
+    .send(newBlog)
+    .expect(200)
+
+  const updatedDb = await blogsInDb()
+  const updatedBlog = updatedDb.find(b => b.id === firstBlog.id)
+
+  assert.deepEqual(updatedBlog, {
+    title: 'newTitle',
+    author: 'newAuthor',
+    url: 'newUrl',
+    likes: 101,
+    id: firstBlog.id
+  })
+})
+
 after(async () => {
   await mongoose.connection.close()
 })

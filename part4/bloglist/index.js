@@ -1,4 +1,4 @@
-const info = require('./utils/logger')
+const { info } = require('./utils/logger')
 const { PORT }  = require('./utils/config')
 const app = require('./app')
 
