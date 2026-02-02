@@ -19,3 +19,14 @@ Content-Type: application/json
 "url": "secondentry",
 "likes": 200
 }
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+"title": "nolikes",
+"author": "mr lonely",
+"url": "emptyLikeMySoul"
+}
