@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY29uZFVzZXIiLCJpZCI6IjY5ODM1YTc5ZDExY2MyYjExZTg2OWNmMiIsImlhdCI6MTc3MDIxODIzNH0.g8jKg8q_XcnvTIRg4QUtk7nlGtvp45D2d8JT-pkvJWM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcnN0VXNlciIsImlkIjoiNjk4MzVhNzFkMTFjYzJiMTFlODY5Y2YwIiwiaWF0IjoxNzcwMjIwNDk3LCJleHAiOjE3NzAyMjQwOTd9.RIHW0d9DuxNGQHmyrLg06hRNnNN15vhw_ppHErkC0NM
 
 {
 "title": "firstblog",
@@ -13,7 +13,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlY29uZFVzZXIiLCJpZCI6IjY5ODM1YTc5ZDExY2MyYjExZTg2OWNmMiIsImlhdCI6MTc3MDIxODIzNH0.g8jKg8q_XcnvTIRg4QUtk7nlGtvp45D2d8JT-pkvJWM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcnN0VXNlciIsImlkIjoiNjk4MzVhNzFkMTFjYzJiMTFlODY5Y2YwIiwiaWF0IjoxNzcwMjIwNDk3LCJleHAiOjE3NzAyMjQwOTd9.RIHW0d9DuxNGQHmyrLg06hRNnNN15vhw_ppHErkC0NM
 
 {
 "title": "secondblog",

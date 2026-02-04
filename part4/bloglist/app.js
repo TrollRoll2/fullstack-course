@@ -4,13 +4,15 @@ const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
-const errorHandler = require('./utils/middleware')
+const { tokenExtractor, errorHandler } = require('./utils/middleware')
 
 const app = express()
 
 mongoose.connect(config.MONGODB_URI)
 
 app.use(express.json())
+
+app.use(tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
 
