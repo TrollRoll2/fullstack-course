@@ -20,5 +20,5 @@ const usersInDb = async () => {
 
 module.exports = {
   initialUsers,
-  usersInDb,
+  usersInDb
 }
