@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,10 +12,12 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
 
+  const blogCreationRef = useRef()
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -31,6 +34,31 @@ const App = () => {
     setTimeout(() => {
       setNotification(null)
     }, 5000)
+  }
+
+  const handleAddLike = async (blog) => {
+    try {
+      const newBlog = {
+        ...blog,
+        likes: blog.likes + 1
+      }
+
+      const updatedBlog = await blogService.updateBlog(newBlog)
+      setBlogs(blogs => blogs.map(b => b.id === blog.id ? updatedBlog : b))
+    } catch (error) {
+      console.log('did not succeed', error)
+    }
+  }
+
+  const handleDeleteBlog = async (blog) => {
+    if (window.confirm(`delete ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.deleteBlog(blog)
+        setBlogs(blogs => blogs.filter(b => b.id !== blog.id))
+      } catch (error) {
+        console.log('did not succeed', error)
+      }
+    }
   }
 
   const handleLogin = async (username, password) => {
@@ -60,10 +88,11 @@ const App = () => {
         url
       })
 
+      blogCreationRef.current.toggleVisibility()
       setBlogs(blogs.concat(newBlog))
       notificationHandler('success', `blog ${title} by ${author} successfully added to the list!`)
     } catch {
-      notificationHandler('error', `blog not added, make sure all credentials are correct`)
+      notificationHandler('error', 'blog not added, make sure all credentials are correct')
     }
   }
 
@@ -79,17 +108,28 @@ const App = () => {
         <div>
           <p>currently logged in as {user.name}</p>
 
-            <button onClick={handleLogout}>Log out</button>
+          <button onClick={handleLogout}>Log out</button>
+
+          <Togglable buttonLabel='create blog' ref={blogCreationRef}>
+            <CreateBlog handleCreation={handleCreation} />
+          </Togglable>
 
           <h2>All notes:</h2>
-          
-          <ul>
-            {blogs.map(b => (
-              <Blog key={b.id} blog={b}/>
-            ))}
-          </ul>
 
-          <CreateBlog handleCreation={handleCreation} />
+          <ul>
+            {blogs
+              .sort((b1, b2) => b2.likes - b1.likes)
+              .map(b => (
+                <Blog
+                  key={b.id}
+                  blog={b}
+                  user={user}
+                  handleAddLike={handleAddLike}
+                  handleDeleteBlog={handleDeleteBlog}
+                />
+              ))
+            }
+          </ul>
 
         </div>
       )}

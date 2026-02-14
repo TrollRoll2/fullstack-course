@@ -13,7 +13,7 @@ const Create = ({ handleCreation }) => {
     setAuthor('')
     setUrl('')
   }
-  
+
   return (
     <div>
       <h1>Add a new blog:</h1>

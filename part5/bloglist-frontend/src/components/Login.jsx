@@ -8,7 +8,7 @@ const Login = ({ handleLogin }) => {
     event.preventDefault()
     handleLogin(username, password)
   }
-  
+
   return (
     <div>
       <h2>Login</h2>
