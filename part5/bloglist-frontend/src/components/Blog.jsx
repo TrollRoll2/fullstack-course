@@ -5,13 +5,12 @@ const Blog = ({ blog, user, handleAddLike, handleDeleteBlog }) => {
 
   return (
     <div>
-      <h3>{blog.title}</h3>
+      <h3>{blog.title} by {blog.author}</h3>
 
       {!visibility && <button onClick={() => setVisibility(!visibility)}>show</button>}
 
       {visibility && (
         <div>
-          author: {blog.author} <br />
           url: {blog.url} <br />
           likes: {blog.likes} <button onClick={() => handleAddLike(blog)}>like</button> <br />
           added by: {blog.user.name} <br />

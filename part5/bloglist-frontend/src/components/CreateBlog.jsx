@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Create = ({ handleCreation }) => {
+const CreateBlog = ({ handleCreation }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -48,10 +48,10 @@ const Create = ({ handleCreation }) => {
             />
           </label>
         </div>
-        <button type="submit">Create blog</button>
+        <button type="submit">save blog</button>
       </form>
     </div>
   )
 }
 
-export default Create
+export default CreateBlog
