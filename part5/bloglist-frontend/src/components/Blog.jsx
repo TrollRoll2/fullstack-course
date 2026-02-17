@@ -4,7 +4,7 @@ const Blog = ({ blog, user, handleAddLike, handleDeleteBlog }) => {
   const [visibility, setVisibility] = useState(false)
 
   return (
-    <div>
+    <div data-testid='blog'>
       <h3>{blog.title} by {blog.author}</h3>
 
       {!visibility && <button onClick={() => setVisibility(!visibility)}>show</button>}
