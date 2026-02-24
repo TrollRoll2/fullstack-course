@@ -28,4 +28,20 @@ const getAll = async () => {
   return await response.json()
 }
 
-export default { getAll, createNew }
+const plusVote = async (anecdote) => {
+  const options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({...anecdote, votes: anecdote.votes + 1})
+  }
+
+  const response = await fetch(`${baseUrl}/${anecdote.id}`, options)
+
+  if (!response.ok) {
+    throw new Error('An error has occured when liking the anecdote')
+  }
+
+  return await response.json()
+} 
+
+export default { getAll, createNew, plusVote }
