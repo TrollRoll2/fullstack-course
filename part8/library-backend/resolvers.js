@@ -166,7 +166,6 @@ const resolvers = {
       await User.deleteMany({})
       return true
     },
-		
 	}
 }
 
