@@ -7,7 +7,7 @@ const typeDefs = require('./schema')
 const User = require('./models/user')
 
 const getUserFromAuthHeader = async (auth) => {
-    if (!auth || !auth.startsWith('bearer ')) {
+    if (!auth || !auth.toLowerCase().startsWith('bearer ')) {
         return null
     }
 
